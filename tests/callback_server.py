@@ -14,12 +14,12 @@ class HttpHandler(cyclone.web.RequestHandler):
             video_status = "done"
         else:
             video_status = "not done"
-        self.write("Video with uid %s is %s." % (video.get('uid'), video_is_done))
+        self.write("Document with uid %s is %s." % (video.get('uid'), video_is_done))
 
 class FileHandler(cyclone.web.RequestHandler):
 
     def get(self):
-        video =  open('input/rubik.flv', 'r')
+        video =  open('input/26images-1table.odt', 'r')
         video_data = video.read()
         video.close()
 
@@ -32,7 +32,7 @@ class CallbackService(cyclone.web.Application):
     def __init__(self):
         handlers = [
             (r"/", HttpHandler),
-            (r"/rubik.flv", FileHandler),
+            (r"/26images-1table.odt", FileHandler),
         ]
 
         settings = {
