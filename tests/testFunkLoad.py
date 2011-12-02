@@ -32,7 +32,7 @@ class VideoConvertBench(FunkLoadTestCase):
         body = dumps({'video': self.video_file})
 
         # begin of test ---------------------------------------------
-        self.post(server_url, description='Send many videos with 5mb each.',
+        self.post(server_url, description='Send many docs with 5mb each.',
                   params=Data('application/json', body))
         response = loads(self.getBody())
         self.uid_list.extend(response.values())
