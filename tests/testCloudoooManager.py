@@ -28,10 +28,10 @@ class CloudoooManagerTest(unittest.TestCase):
         b64_encoded_doc_convertion = b64encode(input_doc_convertion)
 
         uid = self.cloudooo_service.post(doc=b64_encoded_doc, filename='documento.odt', callback='http://localhost:8887/').resource().key
-        #uid_convertion = self.cloudooo_service.post(doc=b64_encoded_doc_convertion, filename='documento.doc', callback='http://localhost:8887/').resource().key
+        uid_convertion = self.cloudooo_service.post(doc=b64_encoded_doc_convertion, filename='documento.doc', callback='http://localhost:8887/').resource().key
 
         self.uid_list.append({'uid':uid, 'images':26, 'files':1})
-        #self.uid_list.append({'uid':uid_convertion, 'images':4, 'files':1})
+        self.uid_list.append({'uid':uid_convertion, 'images':4, 'files':1})
 
         for entry in self.uid_list:
             uid = entry['uid']
@@ -47,21 +47,21 @@ class CloudoooManagerTest(unittest.TestCase):
             doc.get('data').get('files') |should| have(entry['files']).table
 
 
-    #def testDownloadConvertion(self):
+    def testDownloadConvertion(self):
 
-        #uid_doc_download = self.cloudooo_service.post(doc_link='http://localhost:8887/26images-1table.odt', callback='http://localhost:8887/').resource().key
-        #self.uid_list.append({'uid':uid_doc_download})
+        uid_doc_download = self.cloudooo_service.post(doc_link='http://localhost:8887/26images-1table.odt', callback='http://localhost:8887/').resource().key
+        self.uid_list.append({'uid':uid_doc_download})
 
-        #sleep(10)
+        sleep(10)
 
-        #granulation = self.cloudooo_service.get(key=uid_doc_download).resource()
+        granulation = self.cloudooo_service.get(key=uid_doc_download).resource()
 
-        #granulation |should| be_done
+        granulation |should| be_done
 
-    #def tearDown(self):
+    def tearDown(self):
 
-        #for uid in self.uid_list:
-            #self.sam.delete(key=uid)
+        for uid in self.uid_list:
+            self.sam.delete(key=uid)
 
 if __name__ == '__main__':
         cloudooomanager_ctl = join(FOLDER_PATH, '..', 'bin', 'cloudooomanager_ctl')
