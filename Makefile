@@ -1,12 +1,15 @@
 PYTHON=python
 PIP=pip
 
-all: clean pip gstreamer argparse redisapi buildout nsicloudooomanager nsimultimedia restfulie should_dsl cyclone funkload test
+all: clean argparse pip buildout nsicloudooomanager restfulie should_dsl cyclone funkload test
 clean:
 	rm -Rf .installed.cfg bin downloads run develop-eggs eggs log parts
 
 pip:
 	easy_install pip
+
+argparse:
+	pip install argparse
 
 restfulie:
 	$(PIP) install restfulie
@@ -43,9 +46,6 @@ load_test:
 
 load_test_report:
 	cd tests && fl-build-report --html cloudooomanager-bench.xml -r funkload_report
-
-argparse:
-	sudo apt-get install python-argparse -y
 
 buildout:
 	$(PYTHON) bootstrap.py
