@@ -19,8 +19,8 @@ Durante a instalação do serviço, ao executar o comando *make*, todas essas de
 Arquitetura
 -----------
 
-Como pode ser visto no pacote "nsi.cloudooo" o sistema consiste em um webservice RESTful hostiado por padrão na porta 8887
-na url "http://localhost:8887/". Ele responde aos verbos POST e GET. Cada verbo correspondendo a uma ação do serviço de granularização:
+Como pode ser visto no pacote "nsi.cloudooo" o sistema consiste em um webservice RESTful hostiado por padrão na porta 8886
+na url "http://localhost:8886/". Ele responde aos verbos POST e GET. Cada verbo correspondendo a uma ação do serviço de granularização:
 POST para submeter um documento, GET para verificar o estado da granularização. Todos os verbos recebem parâmetros no formato "json",
 para melhor interoperabilidade com qualquer outra ferramenta.
 
@@ -66,8 +66,8 @@ Executando
 ----------
 
 Na pasta do buildout do SAM, executar: “bin/samctl start”, adicionar um usuário
-para o VideoConvert com: “bin/add-user.py video convert” e na pasta do buildout
-do VideoConvert executar: “bin/videoconvert_ctl start”.
+para o CloudoooManager com: “bin/add-user.py test test” e na pasta do buildout
+do CloudoooManager executar: “bin/cloudooomanager_ctl start”.
 
 É indispensável que o serviço de filas esteja ligado para que tudo funciona
 perfeitamente. Para instalar o serviço de filas basta baixar o *servicequeue_buildout*
@@ -81,7 +81,7 @@ Rodando os testes
 -----------------
 
 Com o SAM em execução, adicionar o usuário “test”, com senha “test” nele
-utilizando: “bin/add-user.py video convert”. Depois na raiz do buildout do
+utilizando: “bin/add-user.py test test”. Depois na raiz do buildout do
 VideoConvert executar: “make test”.
 
 
