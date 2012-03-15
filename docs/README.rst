@@ -1,19 +1,17 @@
-VideoConvert Buildout
+CloudoooManager Buildout
 =====================
 
 
 Sistema operacional
 -------------------
 
-Todos os serviços são desenvolvidos sob o sistema operacional Ubuntu Linux 10.04 32 bits e seu funcionamento só
+Todos os serviços são desenvolvidos sob o sistema operacional Debian 6 (Squeeze) 64 bits e seu funcionamento só
 é garantido em tal sistema operacional.
 
 Dependências do sistema
 -----------------------
 
-Para o funcionamento do serviço, é necessário que os seguintes pacotes estejam instalados no sistema: python-dev, python-setuptools,
-python-webunit, python-docutils, gnuplot, python-gst0.10, gstreamer-tools, gstreamer0.10-ffmpeg, gstreamer0.10-plugins-good
-gstreamer0.10-plugins-bad, gstreamer0.10-plugins-good, gstreamer0.10-x, python-gtk2.
+Para o funcionamento do serviço, é necessário que os seguintes pacotes estejam instalados no sistema: python-dev, python-setuptools, python-webunit, libxml2-dev, libxslt1-dev, python-docutils, gnuplot, e python-opencv.
 
 Durante a instalação do serviço, ao executar o comando *make*, todas essas dependências serão devidamente instaladas.
 
@@ -21,22 +19,22 @@ Durante a instalação do serviço, ao executar o comando *make*, todas essas de
 Arquitetura
 -----------
 
-Como pode ser visto no pacote "nsi.videoconvert" o sistema consiste em um webservice RESTful hostiado por padrão na porta 8080
-na url "http://localhost:8080/". Ele responde aos verbos POST e GET. Cada verbo correspondendo a uma ação do serviço de granularização:
-POST para submeter um vídeo, GET para verificar o estado da granularização. Todos os verbos recebem parâmetros no formato "json",
+Como pode ser visto no pacote "nsi.cloudooo" o sistema consiste em um webservice RESTful hostiado por padrão na porta 8887
+na url "http://localhost:8887/". Ele responde aos verbos POST e GET. Cada verbo correspondendo a uma ação do serviço de granularização:
+POST para submeter um documento, GET para verificar o estado da granularização. Todos os verbos recebem parâmetros no formato "json",
 para melhor interoperabilidade com qualquer outra ferramenta.
 
 
 POST
-    Recebe em um parâmetro "video" o vídeo a ser convertido codificado em base64, para evitar problemas de encoding.
-    Responde a requisição com as chaves onde estarão o vídeos e os grãos correspondentes a ele no SAM.
-    É possível enviar uma URL para receber um "callback" assim que o vídeo for convertido. Caso o parêmtro "callback"
+    Recebe em um parâmetro "doc" o documento a ser convertido codificado em base64, para evitar problemas de encoding.
+    Responde a requisição com as chaves onde estarão os grãos correspondentes a ele no SAM.
+    É possível enviar uma URL para receber um "callback" assim que o documento for convertido. Caso o parêmtro "callback"
     seja fornecido, ao término da conversão, um dos workers realizará uma requisição para tal URL com o verbo
     POST, fornecendo no corpo dela uma chave "done" com valor verdadeiro e a chave "key", com a chave para acesso aos grãos.
 
 GET
-    Também é possível receber se um determinado vídeo já foi convertido fazendo uma requisição do tipo GET para o servidor,
-    passando como parâmetro "key" a chave do vídeo que é retornada pelo método POST. O retorno será uma chave
+    Também é possível receber se um determinado documento já foi convertido fazendo uma requisição do tipo GET para o servidor,
+    passando como parâmetro "key" a chave do documento que é retornada pelo método POST. O retorno será uma chave
     "done", com valor verdadeiro caso os grão estejam prontos, e falso para o contrário.
 
 
@@ -53,7 +51,7 @@ além de um cliente HTTP assíncrono.
 É uma API que promove acesso assíncrono ao banco de dados Redis, feita em cima do Twisted.
 
 - nsi.multimedia
-API criada pelo próprio NSI para fazer converter qual vídeo para o formato ogm.
+API criada pelo próprio NSI para granularização de documentos usando o Cloudooo.
 
 
 Instalação
@@ -94,4 +92,4 @@ Com o serviço de armazenamento (SAM) rodando e com o usuário "test", com senha
 *make load_test* para rodar os testes de carga. Automaticamente, depois que o teste terminar, um relatório em HTMl
 será gerado na pasta *tests/funkload_report* com informações e gráficos relevantes sobre o tete.
 
-Para alterar configurações do servidor de granularização e do teste de carga, ver arquivo *tests/VideoConvertBench.conf*.
+Para alterar configurações do servidor de granularização e do teste de carga, ver arquivo *tests/CloudoooManagerBench.conf*.
