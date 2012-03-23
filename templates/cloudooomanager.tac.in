@@ -8,8 +8,8 @@ path.append(ROOT)
 
 import cyclone.web
 from twisted.application import service, internet
-from nsicloudooomanager.http import HttpHandler
-from nsicloudooomanager.auth import Authentication
+from nsi.cloudooomanager.http import HttpHandler
+from nsi.cloudooomanager.auth import Authentication
 from ConfigParser import RawConfigParser
 
 CONF = '${conf-path}'
