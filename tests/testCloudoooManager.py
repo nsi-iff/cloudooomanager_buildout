@@ -49,7 +49,7 @@ class CloudoooManagerTest(unittest.TestCase):
         uid_doc_download = self.cloudooo_service.post(doc_link='http://localhost:8887/26images-1table.odt', callback='http://localhost:8887/').resource().doc_key
         self.uid_list.append({'uid':uid_doc_download})
 
-        sleep(10)
+        sleep(15)
 
         granulation = self.cloudooo_service.get(key=uid_doc_download).resource()
         granulation |should| be_done
