@@ -54,6 +54,23 @@ class CloudoooManagerTest(unittest.TestCase):
         granulation = self.cloudooo_service.get(key=uid_doc_download).resource()
         granulation |should| be_done
 
+    def testGranulateSamUid(self):
+        input_doc = open(join(FOLDER_PATH,'input','26images-1table.odt'), 'rb').read()
+        b64_encoded_doc = b64encode(input_doc)
+
+        sam_uid = self.sam.put(value={"doc":b64_encoded_doc, "granulated":False}).resource().key
+
+        request = self.cloudooo_service.post(sam_uid=sam_uid, filename='document.odt', callback='http://localhost:8887').resource()
+        self.cloudooo_service.get(key=sam_uid).resource() |should_not| be_done
+        sleep(10)
+        doc_key = request.doc_key
+        sam_uid |should| equal_to(doc_key)
+
+        self.cloudooo_service.get(key=sam_uid).resource() |should| be_done
+        grains = self.cloudooo_service.get(doc_key=doc_key).resource()
+        grains |should| have(26).images
+        grains |should| have(1).files
+
     def tearDown(self):
         for uid in self.uid_list:
             self.sam.delete(key=uid)
@@ -70,7 +87,7 @@ if __name__ == '__main__':
             call("%s start" % cloudooomanager_ctl, shell=True)
             call("%s test test" % add_user, shell=True)
             call("%s" % worker, shell=True)
-            sleep(15)
+            sleep(10)
             unittest.main()
         finally:
             sleep(1)
