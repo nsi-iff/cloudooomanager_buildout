@@ -15,6 +15,8 @@ Para o funcionamento do serviço, é necessário que os seguintes pacotes esteja
 
 Durante a instalação do serviço, ao executar o comando *make*, todas essas dependências serão devidamente instaladas.
 
+**IMPORTANTE**: este buildout depende do *servicequeue_buildout*  e do *sam_buildout* devidamente configurados e funcionando.
+
 
 Arquitetura
 -----------
@@ -27,15 +29,22 @@ para melhor interoperabilidade com qualquer outra ferramenta.
 
 POST
     Recebe em um parâmetro "doc" o documento a ser convertido codificado em base64, para evitar problemas de encoding.
-    Responde a requisição com as chaves onde estarão os grãos correspondentes a ele no SAM.
+    Responde a requisição com as chaves onde estarão os grãos correspondentes a ele no SAM. Também pode-se passar um link
+    para o documento, no parâmetro "doc_link", ou até mesmo a chave de um documento pré-armazenado no SAM, no parâmetro "sam_uid".
+    No último caso, o documento precisa estar armazenado seguindo a estrutura {"doc":documento}.
     É possível enviar uma URL para receber um "callback" assim que o documento for convertido. Caso o parêmtro "callback"
     seja fornecido, ao término da conversão, um dos workers realizará uma requisição para tal URL com o verbo
     POST, fornecendo no corpo dela uma chave "done" com valor verdadeiro e a chave "key", com a chave para acesso aos grãos.
+    O sistema responde com a chave do documento, "doc_key", que pode ser usada para verificar se o processo daquele documento
+    já foi concluído e também para acessar as chaves onde cada grão dele foi armazenado no SAM.
 
 GET
     Também é possível receber se um determinado documento já foi convertido fazendo uma requisição do tipo GET para o servidor,
     passando como parâmetro "key" a chave do documento que é retornada pelo método POST. O retorno será uma chave
     "done", com valor verdadeiro caso os grão estejam prontos, e falso para o contrário.
+    Além disso, ele pode ser usado para ter acesso às chaves dos grãos referentes ao documento, caso seja passado um único parâmetro
+    "doc_key" na requisição. Seu retorno será um dicionário contendo as chaves de acesso para cada grão, separadas nas chaves
+    "images" e "files" do dicionário.
 
 
 Bibliotecas
