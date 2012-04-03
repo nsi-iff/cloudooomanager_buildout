@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="47cm" height="31cm" viewBox="98 35 938 618" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="47cm" height="33cm" viewBox="98 1 938 652" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <g>
     <rect style="fill: #ffffff" x="299" y="512.516" width="117" height="54"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="299" y="512.516" width="117" height="54"/>
@@ -138,9 +138,9 @@
     <tspan x="910" y="208.25">grains uids</tspan>
   </text>
   <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #a29d1c" x1="670" y1="220.25" x2="765.208" y2="128.436"/>
-    <polygon style="fill: #a29d1c" points="770.606,123.23 766.879,133.771 765.208,128.436 759.937,126.572 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #a29d1c" points="770.606,123.23 766.879,133.771 765.208,128.436 759.937,126.572 "/>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #8b6914" x1="670" y1="220.25" x2="765.208" y2="128.436"/>
+    <polygon style="fill: #8b6914" points="770.606,123.23 766.879,133.771 765.208,128.436 759.937,126.572 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #8b6914" points="770.606,123.23 766.879,133.771 765.208,128.436 759.937,126.572 "/>
   </g>
   <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="649.14" y="167.222">
     <tspan x="649.14" y="167.222">Document</tspan>
@@ -231,7 +231,7 @@
     </text>
   </g>
   <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="772.488" y1="556.316" x2="803.818" y2="557.212"/>
-  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #a29d1c" x1="772.488" y1="540.462" x2="803.818" y2="541.356"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #8b6914" x1="772.488" y1="540.462" x2="803.818" y2="541.356"/>
   <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #00ff00" x1="772.488" y1="524.606" x2="803.818" y2="525.5"/>
   <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #0000ff" x1="772.488" y1="508.75" x2="803.818" y2="509.646"/>
   <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ff0000" x1="772.488" y1="492.894" x2="803.818" y2="493.79"/>
@@ -266,4 +266,32 @@
   <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="356" y="503.516">
     <tspan x="356" y="503.516">Cyclone</tspan>
   </text>
+  <g>
+    <rect style="fill: #ffffff" x="930.4" y="2.77539" width="90" height="38"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="930.4" y="2.77539" width="90" height="38"/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="975.4" y="25.6754">
+      <tspan x="975.4" y="25.6754">Cloudooo</tspan>
+    </text>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #8b6914" d="M 920.685,21.5155 A 139.359,139.359 0 0 0 805.791,83.6776"/>
+    <polygon style="fill: #8b6914" points="928.168,21.6377 917.879,26.0124 920.683,21.1758 918.495,16.0314 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #8b6914" points="928.168,21.6377 917.879,26.0124 920.683,21.1758 918.495,16.0314 "/>
+  </g>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #8b6914" d="M 848.689,105.381 A 109.187,109.187 0 0 0 975.4,40.7754"/>
+    <polygon style="fill: #8b6914" points="841.484,103.395 852.559,101.869 848.587,105.803 849.35,111.34 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #8b6914" points="841.484,103.395 852.559,101.869 848.587,105.803 849.35,111.34 "/>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="797.758" y="26.4136">
+    <tspan x="797.758" y="26.4136">Document</tspan>
+  </text>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="961.03" y="89.4705">
+    <tspan x="961.03" y="89.4705">Grains</tspan>
+  </text>
+  <g>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" d="M 519.632 335.392 C 519.258,335.392 518.88,336.518 528.242,336.518"/>
+    <polygon style="fill: #000000" points="520.742,336.518 510.742,341.518 513.242,336.518 510.742,331.518 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="520.742,336.518 510.742,341.518 513.242,336.518 510.742,331.518 "/>
+  </g>
 </svg>
