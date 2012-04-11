@@ -8,6 +8,8 @@ path.append(ROOT)
 
 import cyclone.web
 from twisted.application import service, internet
+from twisted.python.logfile import DailyLogFile
+from twisted.python.log import ILogObserver, FileLogObserver
 from nsicloudooomanager.http import HttpHandler
 from nsicloudooomanager.auth import Authentication
 from ConfigParser import RawConfigParser
@@ -42,8 +44,9 @@ class CloudoooManager(cyclone.web.Application):
 
         cyclone.web.Application.__init__(self, handlers, **settings)
 
-
+logfile = DailyLogFile("cloudooomanager.log", "${buildout:log-directory}")
 application = service.Application("CloudoooManager")
+application.setComponent(ILogObserver, FileLogObserver(logfile).emit)
 srv = internet.TCPServer(${port}, CloudoooManager(), interface='${host}')
 srv.setServiceParent(application)
 
