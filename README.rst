@@ -32,11 +32,14 @@ POST
     Responde a requisição com as chaves onde estarão os grãos correspondentes a ele no SAM. Também pode-se passar um link
     para o documento, no parâmetro "doc_link", ou até mesmo a chave de um documento pré-armazenado no SAM, no parâmetro "sam_uid".
     No último caso, o documento precisa estar armazenado seguindo a estrutura {"doc":documento}.
-    É possível enviar uma URL para receber um "callback" assim que o documento for convertido. Caso o parêmtro "callback"
+    É possível enviar uma URL para receber um "callback" assim que o documento for convertido. Caso o parâmetro "callback"
     seja fornecido, ao término da conversão, um dos workers realizará uma requisição para tal URL com o verbo
-    POST, fornecendo no corpo dela uma chave "done" com valor verdadeiro e a chave "key", com a chave para acesso aos grãos.
-    O sistema responde com a chave do documento, "doc_key", que pode ser usada para verificar se o processo daquele documento
-    já foi concluído e também para acessar as chaves onde cada grão dele foi armazenado no SAM.
+    POST, fornecendo no corpo dela uma chave "doc_key", que é a chave do documento, "done" com valor verdadeiro e a
+    chave "grains_keys", com a chave para acesso aos grãos, que estarão organizados em "images" e "files" (grãos do tipo tabela).
+    Caso aconteça algum problema durante a granularização do documento, no callback a chave "done" terá valor falso e haverá uma chave
+    "error" com valor verdadeiro, além da chave do documento, "doc_key". O sistema responde com a chave do documento, "doc_key",
+    que pode ser usada para verificar se o processo daquele documento já foi concluído e também para acessar as chaves onde cada grão
+    dele foi armazenado no SAM.
 
 GET
     Também é possível receber se um determinado documento já foi convertido fazendo uma requisição do tipo GET para o servidor,
