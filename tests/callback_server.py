@@ -8,18 +8,22 @@ class HttpHandler(cyclone.web.RequestHandler):
         return json.loads(self.request.body)
 
     def post(self):
-        video = self._load_request_body_as_json()
-        video_is_done = video.get('done')
-        if video_is_done:
-            video_status = "done"
+        doc = self._load_request_body_as_json()
+        print doc
+
+        doc_is_done = doc.get('done')
+        grains_key = doc.get('grains_keys')
+        if doc_is_done:
+            doc_status = "done"
         else:
-            video_status = "not done"
-        self.write("Document with uid %s is %s." % (video.get('uid'), video_is_done))
+            doc_status = "not done"
+        self.write("Document with uid %s is %s.\n" % (doc.get('doc_key'), doc_status))
+        self.write("Document grains keys: %s" % str(grains_key))
 
 class FileHandler(cyclone.web.RequestHandler):
 
     def get(self):
-        video =  open('input/26images-1table.odt', 'r')
+        video =  open('input/26images-1table.odt')
         video_data = video.read()
         video.close()
 

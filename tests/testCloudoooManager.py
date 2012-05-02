@@ -27,39 +27,51 @@ class CloudoooManagerTest(unittest.TestCase):
         b64_encoded_doc = b64encode(input_doc)
         b64_encoded_doc_convertion = b64encode(input_doc_convertion)
 
-        uid = self.cloudooo_service.post(doc=b64_encoded_doc, filename='documento.odt', callback='http://localhost:8887/').resource().key
-        uid_convertion = self.cloudooo_service.post(doc=b64_encoded_doc_convertion, filename='documento.doc', callback='http://localhost:8887/').resource().key
+        uid = self.cloudooo_service.post(doc=b64_encoded_doc, filename='documento.odt', callback='http://localhost:8887/')
+        doc_key = uid.resource().doc_key
 
-        self.uid_list.append({'uid':uid, 'images':26, 'files':1})
-        self.uid_list.append({'uid':uid_convertion, 'images':4, 'files':1})
+        response_convertion = self.cloudooo_service.post(doc=b64_encoded_doc_convertion, filename='documento.doc', callback='http://localhost:8887/')
+        doc_key_convertion = response_convertion.resource().doc_key
+
+        self.uid_list.append({'doc_key':doc_key, 'images':26, 'files':1})
+        self.uid_list.append({'doc_key':doc_key_convertion, 'images':4, 'files':1})
 
         for entry in self.uid_list:
-            uid = entry['uid']
-            uid |should| be_instance_of(unicode)
-
             sleep(60)
 
-            self.cloudooo_service.get(key=uid).resource() |should| be_done
-            doc = loads(self.sam.get(key=uid).body)
-            doc.keys() |should| have(4).items
-
-            doc.get('data').get('images') |should| have(entry['images']).images
-            doc.get('data').get('files') |should| have(entry['files']).table
-
+            self.cloudooo_service.get(key=entry['doc_key']).resource() |should| be_done
+            grains = loads(self.cloudooo_service.get(doc_key=entry['doc_key']).body)
+            grains['images'] |should| have(entry['images']).images
+            grains['files'] |should| have(entry['files']).file
 
     def testDownloadConvertion(self):
 
-        uid_doc_download = self.cloudooo_service.post(doc_link='http://localhost:8887/26images-1table.odt', callback='http://localhost:8887/').resource().key
+        uid_doc_download = self.cloudooo_service.post(doc_link='http://localhost:8887/26images-1table.odt', callback='http://localhost:8887/').resource().doc_key
         self.uid_list.append({'uid':uid_doc_download})
 
-        sleep(10)
+        sleep(15)
 
         granulation = self.cloudooo_service.get(key=uid_doc_download).resource()
-
         granulation |should| be_done
 
-    def tearDown(self):
+    def testGranulateSamUid(self):
+        input_doc = open(join(FOLDER_PATH,'input','26images-1table.odt'), 'rb').read()
+        b64_encoded_doc = b64encode(input_doc)
 
+        sam_uid = self.sam.put(value={"doc":b64_encoded_doc, "granulated":False}).resource().key
+
+        request = self.cloudooo_service.post(sam_uid=sam_uid, filename='document.odt', callback='http://localhost:8887').resource()
+        self.cloudooo_service.get(key=sam_uid).resource() |should_not| be_done
+        sleep(10)
+        doc_key = request.doc_key
+        sam_uid |should| equal_to(doc_key)
+
+        self.cloudooo_service.get(key=sam_uid).resource() |should| be_done
+        grains = self.cloudooo_service.get(doc_key=doc_key).resource()
+        grains |should| have(26).images
+        grains |should| have(1).files
+
+    def tearDown(self):
         for uid in self.uid_list:
             self.sam.delete(key=uid)
 
@@ -75,7 +87,7 @@ if __name__ == '__main__':
             call("%s start" % cloudooomanager_ctl, shell=True)
             call("%s test test" % add_user, shell=True)
             call("%s" % worker, shell=True)
-            sleep(5)
+            sleep(10)
             unittest.main()
         finally:
             sleep(1)
