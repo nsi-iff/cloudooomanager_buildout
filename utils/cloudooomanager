@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#set -x
+
+FOLDER_PATH="/home/douglas/aos/cloudooomanager_buildout"
+CLOUDOOO_OPTS=""
+
+cloudoooctl_path="$FOLDER_PATH/bin"
+pid_path="$FOLDER_PATH/run"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+     log_daemon_msg "Starting Cloudooo Manager server..." "cloudooomanager"
+     if start-stop-daemon --start --quiet --oknodo --pidfile $pid_path/cloudooo.pid --exec \
+        $cloudoooctl_path/cloudooomanager_ctl start $CLOUDOOO_OPTS; then
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  stop)
+     log_daemon_msg "Stoping Cloudooo Manager server..." "cloudooomanager"
+     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/cloudooo.pid --exec \
+        $cloudoooctl_path/cloudooomanager_ctl stop; then
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  status)
+     status_of_proc -p $pid_path/cloudooo.pid cloudooomanager && exit 0 || exit $?
+     ;;
+
+  *)
+    log_action_msg "Usage: /etc/init.d/cloudooomanager {start|stop|status}"
+    exit 1
+esac
+
+exit 0
