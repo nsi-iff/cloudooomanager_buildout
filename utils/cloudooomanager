@@ -2,7 +2,7 @@
 
 #set -x
 
-FOLDER_PATH="/home/douglas/aos/cloudooomanager_buildout"
+FOLDER_PATH="/vagrant/cloudooo_manager_buildout"
 CLOUDOOO_OPTS=""
 
 cloudoooctl_path="$FOLDER_PATH/bin"
@@ -13,7 +13,7 @@ pid_path="$FOLDER_PATH/run"
 case "$1" in
   start)
      log_daemon_msg "Starting Cloudooo Manager server..." "cloudooomanager"
-     if start-stop-daemon --start --quiet --oknodo --pidfile $pid_path/cloudooo.pid --exec \
+     if start-stop-daemon --start --quiet --oknodo --pidfile $pid_path/cloudooomanager.pid --exec \
         $cloudoooctl_path/cloudooomanager_ctl start $CLOUDOOO_OPTS; then
         log_end_msg 0
      else
@@ -23,8 +23,8 @@ case "$1" in
 
   stop)
      log_daemon_msg "Stoping Cloudooo Manager server..." "cloudooomanager"
-     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/cloudooo.pid --exec \
-        $cloudoooctl_path/cloudooomanager_ctl stop; then
+     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/cloudooomanager.pid --exec $cloudoooctl_path/cloudooomanager_ctl stop; then
+        $cloudoooctl_path/cloudooomanager_ctl stop
         log_end_msg 0
      else
         log_end_msg 1
@@ -32,7 +32,7 @@ case "$1" in
      ;;
 
   status)
-     status_of_proc -p $pid_path/cloudooo.pid cloudooomanager && exit 0 || exit $?
+     status_of_proc -p $pid_path/cloudooomanager.pid $cloudoooctl_path/cloudooomanager_ctl cloudooomanager && exit 0 || exit $?
      ;;
 
   *)
