@@ -23,8 +23,7 @@ case "$1" in
 
   stop)
      log_daemon_msg "Stoping a Cloudooo worker..." "worker1"
-     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/worker1.pid --exec $cloudoooworker_path/stop_worker worker1; then
-        $cloudoooworker_path/stop_worker worker1
+     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/worker1.pid; then
         log_end_msg 0
      else
         log_end_msg 1

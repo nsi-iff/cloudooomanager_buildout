@@ -23,8 +23,7 @@ case "$1" in
 
   stop)
      log_daemon_msg "Stoping Cloudooo Manager server..." "cloudooomanager"
-     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/cloudooomanager.pid --exec $cloudoooctl_path/cloudooomanager_ctl stop; then
-        $cloudoooctl_path/cloudooomanager_ctl stop
+     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/cloudooomanager.pid; then
         log_end_msg 0
      else
         log_end_msg 1
