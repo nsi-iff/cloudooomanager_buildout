@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#set -x
+
+FOLDER_PATH="/vagrant/cloudooo_manager_buildout"
+CLOUDOOO_OPTS=""
+
+cloudoooworker_path="$FOLDER_PATH/bin"
+pid_path="$FOLDER_PATH/run"
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+     log_daemon_msg "Starting a Cloudooo worker..." "worker1"
+     if start-stop-daemon --start --quiet --oknodo --pidfile $pid_path/worker1.pid --exec \
+        $cloudoooworker_path/start_worker -- -name worker1 $CLOUDOOO_OPTS; then
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  stop)
+     log_daemon_msg "Stoping a Cloudooo worker..." "worker1"
+     if start-stop-daemon --stop --quiet --oknodo --pidfile $pid_path/worker1.pid --exec $cloudoooworker_path/stop_worker worker1; then
+        $cloudoooworker_path/stop_worker worker1
+        log_end_msg 0
+     else
+        log_end_msg 1
+     fi
+     ;;
+
+  status)
+     status_of_proc -p $pid_path/worker1.pid $cloudoooworker_path/celeryd cloudooo_worker1 && exit 0 || exit $?
+     ;;
+
+  *)
+    log_action_msg "Usage: /etc/init.d/cloudooo_worker {start|stop|status}"
+    exit 1
+esac
+
+exit 0
