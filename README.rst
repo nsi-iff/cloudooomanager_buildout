@@ -96,6 +96,10 @@ Com o SAM em execução, adicionar o usuário “test”, com senha “test” n
 utilizando: “bin/add-user.py test test”. Depois na raiz do buildout do
 VideoConvert executar: “make test”.
 
+Se o serviço se estiver rodando e não for viável pará-lo para rodar os testes,
+basta utilizar o script executável disponível na pasta "utils", que é gerado
+após o buildout se executado.
+
 
 Testes de carga
 ---------------
