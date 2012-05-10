@@ -1,0 +1,82 @@
+#!${buildout:bin-directory}/python
+
+from json import loads
+from urlparse import urlsplit
+from base64 import b64encode
+from time import sleep
+
+import argparse
+from restfulie import Restfulie
+from should_dsl import should, should_not
+
+def get_args():
+    parser = argparse.ArgumentParser(description='Quickly tests a CloudoooManager a node.')
+    parser.add_argument('document_path', type=str, help='path to the document to be used in the test.')
+    parser.add_argument('images', type=int, help='how many images does the document have?')
+    parser.add_argument('tables', type=int, help='how many tables does the document have?')
+    parser.add_argument('host', type=str, help='the host of the desired CloudoooManager.')
+    parser.add_argument('port', type=str, help='the port of the desired CloudoooManager.')
+    parser.add_argument('user', type=str, help='the user of the desired CloudoooManager.')
+    parser.add_argument('password', type=str, help='the password of the desired CloudoooManager.')
+    return parser.parse_args()
+
+def test_cloudooo(document_path, images, tables, host, port, user, password):
+    url = 'http://%s:%s/' % (host, port)
+    key = None
+    print "Testing CloudoooManager in the url: %s" % url
+    print "With user/password: %s/%s" % (user, password)
+
+    cloudooo = Restfulie.at(url).as_('application/json').auth(user, password)
+    document64 = b64encode(open(document_path).read())
+    filename = urlsplit(document_path).path.split('/')[-1]
+    print "Filename: %s" % filename
+
+    # testing post method
+    print "Testing 'post' method..."
+    try:
+        response = cloudooo.post(doc=document64, filename=filename)
+        check_response_for_common_errors(response, "Failed to send document to CloudoooManager.")
+        key = loads(response.body)['doc_key']
+    except Exception:
+        print "Couldn't connect to CloudoooManager."
+        exit(0)
+
+    sleep(5)
+    # testing get method
+    print "Testing 'get' method..."
+    try:
+        response = cloudooo.get(key=key)
+        check_response_for_common_errors(response, "Failed to check if the granularization is done.")
+        oo_response = loads(response.body)
+        oo_response['done'] |should| equal_to(True)
+
+        response = cloudooo.get(doc_key=key)
+        check_response_for_common_errors(response, "Failed to get the granularization results from CloudoooManager.")
+        oo_response = loads(response.body)
+        oo_response['images'] |should| have(images).images
+        oo_response['files'] |should| have(tables).files
+    except Exception, e:
+        print "Couldn't connect to CloudoooManager."
+        exit(0)
+
+    print "Ok!"
+
+def check_response_for_common_errors(response, default_error):
+    if not response.code == '200':
+        if response.code == '401':
+            print "Authencation invalid."
+            exit(0)
+        elif response.code == '400':
+            print "CloudoooManager couldn't understand the HTTP request."
+            exit(0)
+        elif response.code == '404':
+            print "CloudoooManager couldn't find the desired key in SAM."
+            exit(0)
+        else:
+            print default_error
+            exit(0)
+
+
+if __name__ == '__main__':
+    args = get_args()
+    test_cloudooo(args.document_path, args.images, args.tables, args.host, args.port, args.user, args.password)
