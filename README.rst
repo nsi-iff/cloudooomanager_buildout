@@ -29,12 +29,13 @@ para melhor interoperabilidade com qualquer outra ferramenta.
 
 POST
     Recebe em um parâmetro "doc" o documento a ser convertido codificado em base64, para evitar problemas de encoding.
-    Responde a requisição com as chaves onde estarão os grãos correspondentes a ele no SAM. Também pode-se passar um link
-    para o documento, no parâmetro "doc_link", ou até mesmo a chave de um documento pré-armazenado no SAM, no parâmetro "sam_uid".
-    No último caso, o documento precisa estar armazenado seguindo a estrutura {"doc":documento}.
-    É possível enviar uma URL para receber um "callback" assim que o documento for convertido. Caso o parâmetro "callback"
-    seja fornecido, ao término da conversão, um dos workers realizará uma requisição para tal URL com o verbo
-    POST, fornecendo no corpo dela uma chave "doc_key", que é a chave do documento, "done" com valor verdadeiro e a
+    Responde a requisição com as chaves onde estarão os grãos correspondentes a ele no SAM. Todos os grão são armazenados
+    na forma de dicionário, contendo o grão em si na chave "file" e o nome do arquivoo do grão na chave "filename".
+    Também pode-se passar um link para o documento, no parâmetro "doc_link", ou até mesmo a chave de um documento
+    pré-armazenado no SAM, no parâmetro "sam_uid". No último caso, o documento precisa estar armazenado seguindo a estrutura
+    {"doc":documento}. É possível enviar uma URL para receber um "callback" assim que o documento for convertido.
+    Caso o parâmetro "callback" seja fornecido, ao término da conversão, um dos workers realizará uma requisição para tal URL
+    com o verbo POST, fornecendo no corpo dela uma chave "doc_key", que é a chave do documento, "done" com valor verdadeiro e a
     chave "grains_keys", com a chave para acesso aos grãos, que estarão organizados em "images" e "files" (grãos do tipo tabela).
     Caso aconteça algum problema durante a granularização do documento, no callback a chave "done" terá valor falso e haverá uma chave
     "error" com valor verdadeiro, além da chave do documento, "doc_key". O sistema responde com a chave do documento, "doc_key",
