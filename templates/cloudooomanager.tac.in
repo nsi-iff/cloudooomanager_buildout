@@ -23,6 +23,8 @@ SAM_URL = '${sam:url}'
 SAM_USER = '${sam:user}'
 SAM_PASS = '${sam:pass}'
 
+TASK_QUEUE = '${task_queue}'
+
 
 def get_authenticator(conf):
     return Authentication(DB_FILE)
@@ -40,6 +42,7 @@ class CloudoooManager(cyclone.web.Application):
             "sam_url": SAM_URL,
             "sam_user": SAM_USER,
             "sam_pass": SAM_PASS,
+            "task_queue": TASK_QUEUE,
         }
 
         cyclone.web.Application.__init__(self, handlers, **settings)
