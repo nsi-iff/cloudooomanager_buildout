@@ -20,6 +20,7 @@ class CloudoooManagerTest(unittest.TestCase):
         self.cloudooo_service = Restfulie.at("http://localhost:8886/").auth('test', 'test').as_('application/json')
         self.sam = Restfulie.at('http://localhost:8888/').auth('test', 'test').as_('application/json')
         self.uid_list = []
+        self.grain = None
 
     def testGranulation(self):
         input_doc = open(join(FOLDER_PATH,'input','26images-1table.odt'), 'rb').read()
@@ -37,17 +38,20 @@ class CloudoooManagerTest(unittest.TestCase):
         self.uid_list.append({'doc_key':doc_key_convertion, 'images':4, 'files':1})
 
         for entry in self.uid_list:
-            sleep(60)
+            sleep(30)
 
             self.cloudooo_service.get(key=entry['doc_key']).resource() |should| be_done
             grains = loads(self.cloudooo_service.get(doc_key=entry['doc_key']).body)
+
+            self.grain = grains['images'][0]
+
             grains['images'] |should| have(entry['images']).images
             grains['files'] |should| have(entry['files']).file
 
     def testDownloadConvertion(self):
 
         uid_doc_download = self.cloudooo_service.post(doc_link='http://localhost:8887/26images-1table.odt', callback='http://localhost:8887/').resource().doc_key
-        self.uid_list.append({'uid':uid_doc_download})
+        self.uid_list.append({'doc_key':uid_doc_download})
 
         sleep(15)
 
@@ -72,8 +76,8 @@ class CloudoooManagerTest(unittest.TestCase):
         grains |should| have(1).files
 
     def tearDown(self):
-        for uid in self.uid_list:
-            self.sam.delete(key=uid)
+        for document in self.uid_list:
+            self.sam.delete(key=document["doc_key"])
 
 if __name__ == '__main__':
         cloudooomanager_ctl = join(FOLDER_PATH, '..', 'bin', 'cloudooomanager_ctl')
