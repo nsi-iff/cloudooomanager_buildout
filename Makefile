@@ -18,13 +18,8 @@ cyclone:
 	pip install twisted cyclone
 
 nsicloudooomanager:
-	@rm -Rf nsi.cloudooomanager-0.1
-	@rm -rf nsi.sam-0.1.tar.gz
-	wget http://newton.iff.edu.br/pypi/nsi.cloudooomanager-0.1.tar.gz
-	tar -vzxf nsi.cloudooomanager-0.1.tar.gz
-	cd nsi.cloudooomanager-0.1 && ${PYTHON} setup.py install
-	@rm -Rf nsi.cloudooomanager-0.1
-	@rm -rf nsi.cloudooomanager-0.1.tar.gz
+	pip install https://github.com/nsi-iff/nsi.cloudooomanager/zipball/master
+	pip install https://github.com/nsi-iff/nsi.sam/zipball/master
 
 should_dsl:
 	pip install should-dsl
