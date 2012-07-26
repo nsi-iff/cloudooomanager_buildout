@@ -43,10 +43,10 @@ class CloudoooManagerTest(unittest.TestCase):
             self.cloudooo_service.get(key=entry['doc_key']).resource() |should| be_done
             grains = loads(self.cloudooo_service.get(doc_key=entry['doc_key']).body)
 
-            self.grain = grains['images'][0]
 
             grains['images'] |should| have(entry['images']).images
             grains['files'] |should| have(entry['files']).file
+            grains['thumbnail'] |should| be_kind_of(unicode)
 
     def testDownloadConvertion(self):
 
