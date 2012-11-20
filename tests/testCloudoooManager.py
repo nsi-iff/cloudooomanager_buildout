@@ -28,7 +28,8 @@ class CloudoooManagerTest(unittest.TestCase):
         b64_encoded_doc = b64encode(input_doc)
         b64_encoded_doc_convertion = b64encode(input_doc_convertion)
 
-        uid = self.cloudooo_service.post(doc=b64_encoded_doc, filename='documento.odt', callback='http://localhost:8887/')
+        uid = self.cloudooo_service.post(doc=b64_encoded_doc, filename='documento.odt',
+                                         callback='http://localhost:8887/', expire=90)
         doc_key = uid.resource().doc_key
 
         response_convertion = self.cloudooo_service.post(doc=b64_encoded_doc_convertion, filename='documento.doc', callback='http://localhost:8887/')
@@ -62,7 +63,7 @@ class CloudoooManagerTest(unittest.TestCase):
         input_doc = open(join(FOLDER_PATH,'input','26images-1table.odt'), 'rb').read()
         b64_encoded_doc = b64encode(input_doc)
 
-        sam_uid = self.sam.put(value={"doc":b64_encoded_doc, "granulated":False}).resource().key
+        sam_uid = self.sam.post(value={"doc":b64_encoded_doc, "granulated":False}).resource().key
 
         request = self.cloudooo_service.post(sam_uid=sam_uid, filename='document.odt', callback='http://localhost:8887').resource()
         self.cloudooo_service.get(key=sam_uid).resource() |should_not| be_done
@@ -73,7 +74,7 @@ class CloudoooManagerTest(unittest.TestCase):
         self.cloudooo_service.get(key=sam_uid).resource() |should| be_done
         grains = self.cloudooo_service.get(doc_key=doc_key).resource()
         grains |should| have(26).images
-        grains |should| have(1).files
+    #     grains |should| have(1).files
 
     def tearDown(self):
         for document in self.uid_list:
