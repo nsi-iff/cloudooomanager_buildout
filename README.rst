@@ -33,14 +33,16 @@ POST
     na forma de dicionário, contendo o grão em si na chave "file" e o nome do arquivoo do grão na chave "filename".
     Também pode-se passar um link para o documento, no parâmetro "doc_link", ou até mesmo a chave de um documento
     pré-armazenado no SAM, no parâmetro "sam_uid". No último caso, o documento precisa estar armazenado seguindo a estrutura
-    {"doc":documento}. É possível enviar uma URL para receber um "callback" assim que o documento for convertido.
+    {"file":documento}. É possível enviar uma URL para receber um "callback" assim que o documento for convertido.
     Caso o parâmetro "callback" seja fornecido, ao término da conversão, um dos workers realizará uma requisição para tal URL
     com o verbo POST, fornecendo no corpo dela uma chave "doc_key", que é a chave do documento, "done" com valor verdadeiro e a
     chave "grains_keys", com a chave para acesso aos grãos, que estarão organizados em "images" e "files" (grãos do tipo tabela).
-    Caso aconteça algum problema durante a granularização do documento, no callback a chave "done" terá valor falso e haverá uma chave
-    "error" com valor verdadeiro, além da chave do documento, "doc_key". O sistema responde com a chave do documento, "doc_key",
-    que pode ser usada para verificar se o processo daquele documento já foi concluído e também para acessar as chaves onde cada grão
-    dele foi armazenado no SAM.
+    Caso aconteça algum problema durante a granularização do documento, no callback a chave "done" terá valor falso e haverá uma chave "error" com valor verdadeiro, além da chave do documento, "doc_key". O sistema responde com a chave do documento,
+    "doc_key", que pode ser usada para verificar se o processo daquele documento já foi concluído e também para acessar as chaves
+    onde cada grão dele foi armazenado no SAM.
+    É possível fazer a extração dos metadados de um documento, basta passar a chave do SAM onde ele está armazenado no parâmetro
+    "sam_uid" e também um parâmetro "metadata" com valor booleano verdadeiro. Os metadados do documento serão extraídos e armazenados
+    no SAM.
 
 GET
     Também é possível receber se um determinado documento já foi convertido fazendo uma requisição do tipo GET para o servidor,
@@ -49,6 +51,8 @@ GET
     Além disso, ele pode ser usado para ter acesso às chaves dos grãos referentes ao documento, caso seja passado um único parâmetro
     "doc_key" na requisição. Seu retorno será um dicionário contendo as chaves de acesso para cada grão, separadas nas chaves
     "images" e "files" do dicionário.
+    Para acessar a chave dos metadados de um documento, basta fazer a mesma requisição, porém com um parâmetro adicional
+    "metadata" com valor booleano verdadeiro.
 
 
 Bibliotecas
@@ -65,6 +69,9 @@ além de um cliente HTTP assíncrono.
 
 - nsi.multimedia
 API criada pelo próprio NSI para granularização de documentos usando o Cloudooo.
+
+- nsi.metadataextractor
+API criada pelo próprio NSI para a extração de metadados de documentos.
 
 
 Instalação
